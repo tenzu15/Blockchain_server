@@ -1,0 +1,64 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Sample business network definition.
+ */
+
+namespace org.network.co
+
+asset Account identified by accNo{
+  o String accNo
+  --> Bank bank
+  --> User user
+  o Double balance default = 0.0
+}
+
+asset Txn identified by txnId {
+  o String txnId
+  --> Account fromAccount
+  --> Account toAccount
+  o Double amount
+}
+
+participant User identified by userId {
+  o String userId
+  o String firstName
+  o String lastName
+  o Integer Age
+  o String gender
+  o String maritalStatus
+  o Integer noOfChildren
+  o Account[] accounts
+  o Txn[] txns
+}
+
+participant Bank identified by bankId {
+  o String bankId
+  o String bankName
+  o Account[] accounts
+  o Txn[] txns
+}
+
+transaction Transfer {
+  --> Account fromAccount
+  --> Account toAccount
+  o Double amount
+}
+  
+ transaction CreateAccount {
+  --> User user
+  --> Bank bank
+  o Double amount
+}
